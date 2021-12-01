@@ -258,6 +258,8 @@ int main(int argc, char **argv)
         startup("save");
         setup_signals(save_signal_handler);
 
+        /* Migration log stub */
+        printf("Starting domain saving/export...\n");
         r = xc_domain_save(xch, io_fd, dom, flags, &cb, stream_type, recv_fd);
         complete(r);
 
@@ -283,6 +285,8 @@ int main(int argc, char **argv)
         startup("restore");
         setup_signals(SIG_DFL);
 
+        /* Migration log stub */
+        printf("Starting domain restoration...\n");
         r = xc_domain_restore(xch, io_fd, dom, store_evtchn, &store_mfn,
                               store_domid, console_evtchn, &console_mfn,
                               console_domid, stream_type, &cb, send_back_fd);

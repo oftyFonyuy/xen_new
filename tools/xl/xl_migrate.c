@@ -44,6 +44,10 @@ static pid_t create_migration_child(const char *rune, int *send_fd,
     MUST( libxl_pipe(ctx, sendpipe) );
     MUST( libxl_pipe(ctx, recvpipe) );
 
+
+    /* Migration log stub */
+    printf("Creating fork process to handle migration task\n");
+
     child = xl_fork(child_migration, "migration transport process");
 
     if (!child) {
@@ -162,6 +166,9 @@ static void migrate_do_preamble(int send_fd, int recv_fd, pid_t child,
         exit(EXIT_FAILURE);
     }
 
+    /* Migration log stub */
+    printf("Reading message from target...\n");
+
     rc = migrate_read_fixedmessage(recv_fd, migrate_receiver_banner,
                                    sizeof(migrate_receiver_banner)-1,
                                    "banner", rune);
@@ -188,6 +195,10 @@ static void migrate_domain(uint32_t domid, int preserve_domid,
     uint8_t *config_data;
     int config_len, flags = LIBXL_SUSPEND_LIVE;
 
+
+    /* Migration log stub */
+    printf("Retrieving configuration information...\n");
+
     save_domain_core_begin(domid, preserve_domid, override_config_file,
                            &config_data, &config_len);
 
@@ -202,10 +213,18 @@ static void migrate_domain(uint32_t domid, int preserve_domid,
     migrate_do_preamble(send_fd, recv_fd, child, config_data, config_len,
                         rune);
 
+
+    /* Migration log stub */
+    printf("Updating stream flags\n");
+
     xtl_stdiostream_adjust_flags(logger, XTL_STDIOSTREAM_HIDE_PROGRESS, 0);
 
     if (debug)
         flags |= LIBXL_SUSPEND_DEBUG;
+    
+    /* Migration log stub */
+    printf("Suspending domain...\n");
+
     rc = libxl_domain_suspend(ctx, domid, send_fd, flags, NULL);
     if (rc) {
         fprintf(stderr, "migration sender: libxl_domain_suspend failed"
@@ -220,10 +239,17 @@ static void migrate_domain(uint32_t domid, int preserve_domid,
     // Should only be printed when debugging as it's a bit messy with
     // progress indication.
 
+    /* Migration log stub */
+    printf("Reading message from target...\n");
+
     rc = migrate_read_fixedmessage(recv_fd, migrate_receiver_ready,
                                    sizeof(migrate_receiver_ready),
                                    "ready message", rune);
     if (rc) goto failed_resume;
+
+
+    /* Migration log stub */
+    printf("Updating stream flags\n");
 
     xtl_stdiostream_adjust_flags(logger, 0, XTL_STDIOSTREAM_HIDE_PROGRESS);
 
@@ -246,16 +272,25 @@ static void migrate_domain(uint32_t domid, int preserve_domid,
 
     fprintf(stderr, "migration sender: Giving target permission to start.\n");
 
+    /* Migration log stub */
+    printf("Sending message to target...\n");
+
     rc = libxl_write_exactly(ctx, send_fd,
                              migrate_permission_to_go,
                              sizeof(migrate_permission_to_go),
                              "migration stream", "GO message");
     if (rc) goto failed_badly;
 
+    /* Migration log stub */
+    printf("Reading message from target\n");
+
     rc = migrate_read_fixedmessage(recv_fd, migrate_report,
                                    sizeof(migrate_report),
                                    "success/failure report message", rune);
     if (rc) goto failed_badly;
+
+    /* Migration log stub */
+    printf("Read message from target\n");
 
     rc = libxl_read_exactly(ctx, recv_fd,
                             &rc_buf, 1,
@@ -266,6 +301,8 @@ static void migrate_domain(uint32_t domid, int preserve_domid,
         fprintf(stderr, "migration sender: Target reports startup failure"
                 " (status code %d).\n", rc_buf);
 
+        /* Migration log stub */
+        printf("Accord sending right to start domain\n");
         rc = migrate_read_fixedmessage(recv_fd, migrate_permission_to_go,
                                        sizeof(migrate_permission_to_go),
                                        "permission for sender to resume",
@@ -274,9 +311,14 @@ static void migrate_domain(uint32_t domid, int preserve_domid,
 
         fprintf(stderr, "migration sender: Trying to resume at our end.\n");
 
+        /* Migration log stub */
+        printf("Renaming domain\n");
         if (common_domname) {
             libxl_domain_rename(ctx, domid, away_domname, common_domname);
         }
+
+        /* Migration log stub */
+        printf("Verifying that domain started successfully\n");
         rc = libxl_domain_resume(ctx, domid, 1, 0);
         if (!rc) fprintf(stderr, "migration sender: Resumed OK.\n");
 
@@ -334,6 +376,8 @@ static void migrate_receive(int debug, int daemonize, int monitor,
 
     fprintf(stderr, "migration target: Ready to receive domain.\n");
 
+    /* Migration log stub */
+    printf("Send message to target...\n");
     CHK_ERRNOVAL(libxl_write_exactly(
                      ctx, send_fd, migrate_receiver_banner,
                      sizeof(migrate_receiver_banner)-1,
@@ -351,12 +395,19 @@ static void migrate_receive(int debug, int daemonize, int monitor,
     dom_info.colo_proxy_script = colo_proxy_script;
     dom_info.userspace_colo_proxy = userspace_colo_proxy;
 
+
+    /* Migration log stub */
+    printf("Attempting to create domain\n");
+
     rc = create_domain(&dom_info);
     if (rc < 0) {
         fprintf(stderr, "migration target: Domain creation failed"
                 " (code %d).\n", rc);
         exit(EXIT_FAILURE);
     }
+
+    /* Migration log stub */
+    printf("Domain creation successful\n");
 
     domid = rc;
 

@@ -73,6 +73,10 @@ static int update_domain_cpu_policy(struct domain *d,
     /* Trim any newly-stale out-of-range leaves. */
     x86_cpuid_policy_clear_out_of_range_leaves(new.cpuid);
 
+
+    /* Migration log stub */
+    printk("Checking that cpu policies are compatible.\n");
+
     /* Audit the combined dataset. */
     ret = x86_cpu_policies_are_compatible(sys, &new, &err);
     if ( ret )
@@ -215,6 +219,9 @@ long arch_do_domctl(
     bool copyback = false;
     unsigned long i;
 
+
+    /* Migration log stub */
+    printk("In arch_do_domctl\n");
     switch ( domctl->cmd )
     {
 
@@ -1365,6 +1372,8 @@ long arch_do_domctl(
             ret = -EEXIST; /* No changing once the domain is running. */
         else
         {
+            /* Migration log stub */
+            printk("Attempting to update cpuid policy\n");
             ret = update_domain_cpu_policy(d, &domctl->u.cpu_policy);
             if ( ret ) /* Copy domctl->u.cpu_policy.err_* to guest. */
                 copyback = true;

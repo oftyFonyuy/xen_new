@@ -705,6 +705,10 @@ int create_domain(struct domain_create *dom_info)
             if (rc) return rc;
         }
 
+
+        /* Migration log stub */
+        printf("Reading incoming stream...\n");
+
         CHK_ERRNOVAL(libxl_read_exactly(
                          ctx, restore_fd, &hdr, sizeof(hdr),
                          restore_source, "header"));
