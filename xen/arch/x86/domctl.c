@@ -35,6 +35,7 @@
 #include <asm/xstate.h>
 #include <asm/debugger.h>
 #include <asm/psr.h>
+#include <stdio.h>
 #include <asm/cpuid.h>
 
 #ifdef CONFIG_GDBSX
