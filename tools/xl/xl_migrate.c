@@ -377,7 +377,7 @@ static void migrate_receive(int debug, int daemonize, int monitor,
     fprintf(stderr, "migration target: Ready to receive domain.\n");
 
     /* Migration log stub */
-    printf("Send message to target...\n");
+    fprintf(stderr, "T: Send message to source...\n");
     CHK_ERRNOVAL(libxl_write_exactly(
                      ctx, send_fd, migrate_receiver_banner,
                      sizeof(migrate_receiver_banner)-1,
@@ -397,7 +397,7 @@ static void migrate_receive(int debug, int daemonize, int monitor,
 
 
     /* Migration log stub */
-    printf("Attempting to create domain\n");
+    fprintf(stderr, "T: Attempting to create domain\n");
 
     rc = create_domain(&dom_info);
     if (rc < 0) {
@@ -407,7 +407,7 @@ static void migrate_receive(int debug, int daemonize, int monitor,
     }
 
     /* Migration log stub */
-    printf("Domain creation successful\n");
+    fprintf(stderr, "T: Domain creation successful\n");
 
     domid = rc;
 

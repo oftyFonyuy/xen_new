@@ -164,7 +164,7 @@ int x86_static_data_complete(struct xc_sr_context *ctx, unsigned int *missing)
         *missing |= XGR_SDD_MISSING_MSR;
 
     /* Migration log stub */
-    printf("Attempting to set cpuid policy\n");
+    fprintf(stderr, "T: Attempting to set cpuid policy\n");
     if ( (nr_leaves || nr_msrs) &&
          xc_set_domain_cpu_policy(xch, ctx->domid,
                                   nr_leaves, ctx->x86.restore.cpuid.ptr,
