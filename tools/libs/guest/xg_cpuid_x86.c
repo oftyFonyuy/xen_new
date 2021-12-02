@@ -240,6 +240,8 @@ int xc_set_domain_cpu_policy(xc_interface *xch, uint32_t domid,
     domctl.u.cpu_policy.err_subleaf = -1;
     domctl.u.cpu_policy.err_msr = -1;
 
+    /* Migration log stub */
+    fprintf(stderr, "T: Attempting Hypercall for checks\n");
     ret = do_domctl(xch, &domctl);
 
     xc_hypercall_bounce_post(xch, leaves);
