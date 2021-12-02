@@ -282,7 +282,7 @@ long do_domctl(XEN_GUEST_HANDLE_PARAM(xen_domctl_t) u_domctl)
     struct domain *d;
 
     /* Migration log stub */
-    printk("Calling do_domctl\n");
+    // printk("Calling do_domctl\n");
     if ( copy_from_guest(op, u_domctl, 1) )
         return -EFAULT;
 

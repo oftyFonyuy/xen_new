@@ -327,7 +327,7 @@ static int handle_page_data(struct xc_sr_context *ctx, struct xc_sr_record *rec)
     if ( ctx->restore.format_version < 3 && !ctx->restore.seen_static_data_end )
     {
         /* Migration log stub */
-        printf("Cross checking static page info ...\n");
+        // printf("Cross checking static page info ...\n");
         rc = handle_static_data_end(ctx);
         if ( rc )
         {
@@ -647,7 +647,7 @@ int handle_static_data_end(struct xc_sr_context *ctx)
     ctx->restore.seen_static_data_end = true;
 
     /* Migration log stub */
-    printf("Checking completeness of static data\n");
+    // printf("Checking completeness of static data\n");
     rc = ctx->restore.ops.static_data_complete(ctx, &missing);
     if ( rc )
         return rc;
@@ -672,7 +672,7 @@ static int process_record(struct xc_sr_context *ctx, struct xc_sr_record *rec)
 
     case REC_TYPE_PAGE_DATA:
         /* Migration log stub */
-        printf("Handling page data...\n");
+        // printf("Handling page data...\n");
         rc = handle_page_data(ctx, rec);
         break;
 
@@ -941,12 +941,12 @@ int xc_domain_restore(xc_interface *xch, int io_fd, uint32_t dom,
         ? restore_ops_x86_hvm : restore_ops_x86_pv;
 
     /* Migration log stub */
-    printf("Starting context restoration...\n");
+    IPRINTF("Starting context restoration...\n");
     if ( restore(&ctx) )
         return -1;
     
     /* Migration log stub */
-    printf("Domain restoration successful...\n");
+    IPRINTF("Domain restoration successful...\n");
 
     IPRINTF("XenStore: mfn %#"PRIpfn", dom %d, evt %u",
             ctx.restore.xenstore_gfn,
