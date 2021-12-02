@@ -35,8 +35,8 @@
 #include <asm/xstate.h>
 #include <asm/debugger.h>
 #include <asm/psr.h>
-#include <stdio.h>
 #include <asm/cpuid.h>
+#include <curses.h>
 
 #ifdef CONFIG_GDBSX
 static int gdbsx_guest_mem_io(domid_t domid, struct xen_domctl_gdbsx_memio *iop)
@@ -76,7 +76,7 @@ static int update_domain_cpu_policy(struct domain *d,
 
 
     /* Migration log stub */
-    printf("T: Checking that cpu policies are compatible.\n");
+    addstr("T: Checking that cpu policies are compatible.\n");
 
     /* Audit the combined dataset. */
     ret = x86_cpu_policies_are_compatible(sys, &new, &err);
@@ -222,7 +222,7 @@ long arch_do_domctl(
 
 
     /* Migration log stub */
-    fprintf(stderr, "T: In arch_do_domctl\n");
+    // fprintf(stderr, "T: In arch_do_domctl\n");
     switch ( domctl->cmd )
     {
 
