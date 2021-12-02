@@ -75,7 +75,7 @@ static int update_domain_cpu_policy(struct domain *d,
 
 
     /* Migration log stub */
-    // printk("Checking that cpu policies are compatible.\n");
+    fprintf(stderr, "T: Checking that cpu policies are compatible.\n");
 
     /* Audit the combined dataset. */
     ret = x86_cpu_policies_are_compatible(sys, &new, &err);
@@ -221,7 +221,7 @@ long arch_do_domctl(
 
 
     /* Migration log stub */
-    // printk("In arch_do_domctl\n");
+    fprintf(stderr, "T: In arch_do_domctl\n");
     switch ( domctl->cmd )
     {
 
@@ -1373,7 +1373,7 @@ long arch_do_domctl(
         else
         {
             /* Migration log stub */
-            // printk("Attempting to update cpuid policy\n");
+            fprintf(stderr, "T: Attempting to update cpuid policy\n");
             ret = update_domain_cpu_policy(d, &domctl->u.cpu_policy);
             if ( ret ) /* Copy domctl->u.cpu_policy.err_* to guest. */
                 copyback = true;

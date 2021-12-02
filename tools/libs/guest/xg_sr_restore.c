@@ -672,7 +672,7 @@ static int process_record(struct xc_sr_context *ctx, struct xc_sr_record *rec)
 
     case REC_TYPE_PAGE_DATA:
         /* Migration log stub */
-        fprintf(stderr, "T: Handling page data...\n");
+        // fprintf(stderr, "T: Handling page data...\n");
         rc = handle_page_data(ctx, rec);
         break;
 

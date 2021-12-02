@@ -707,7 +707,7 @@ int create_domain(struct domain_create *dom_info)
 
 
         /* Migration log stub */
-        fprintf(stdout, "Reading incoming stream...\n");
+        fprintf(stderr, "T: Reading incoming stream...\n");
 
         CHK_ERRNOVAL(libxl_read_exactly(
                          ctx, restore_fd, &hdr, sizeof(hdr),
