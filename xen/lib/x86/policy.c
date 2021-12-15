@@ -17,8 +17,8 @@ int x86_cpu_policies_are_compatible(const struct cpu_policy *host,
 
     /* Migration log stub */
     // printk("Checking basic leaves\n");
-    // if ( guest->cpuid->basic.max_leaf > host->cpuid->basic.max_leaf )
-    //     FAIL_CPUID(0, NA);
+    if ( guest->cpuid->basic.max_leaf > host->cpuid->basic.max_leaf )
+        FAIL_CPUID(0, NA);
 
     /* Migration log stub */
     // printk("Checking feat leaves\n");

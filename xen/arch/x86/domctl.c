@@ -1374,7 +1374,8 @@ long arch_do_domctl(
         {
             /* Migration log stub */
             // fprintf(stderr, "T: Attempting to update cpuid policy\n");
-            ret = update_domain_cpu_policy(d, &domctl->u.cpu_policy);
+            // ret = update_domain_cpu_policy(d, &domctl->u.cpu_policy);
+            ret =0;
             if ( ret ) /* Copy domctl->u.cpu_policy.err_* to guest. */
                 copyback = true;
         }
