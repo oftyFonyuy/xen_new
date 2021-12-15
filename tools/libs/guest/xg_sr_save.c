@@ -866,6 +866,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     if ( rc )
         goto err;
 
+    IPRINTF("S: Sending static data...\n");
     rc = write_static_data_end_record(ctx);
     if ( rc )
         goto err;
@@ -874,6 +875,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     if ( rc )
         goto err;
 
+    IPRINTF("Starting progressive data transfer\n");
     do {
         rc = ctx->save.ops.start_of_checkpoint(ctx);
         if ( rc )
@@ -953,6 +955,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             }
         }
     } while ( ctx->stream_type != XC_STREAM_PLAIN );
+    IPRINTF("Progressive data transfer over...\n");
 
     xc_report_progress_single(xch, "End of stream");
 
