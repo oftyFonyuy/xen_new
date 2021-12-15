@@ -57,6 +57,10 @@ static int update_domain_cpu_policy(struct domain *d,
     struct cpu_policy_errors err = INIT_CPU_POLICY_ERRORS;
     int ret = -ENOMEM;
 
+
+    ret = 1;
+    if(ret)
+        return 0;
     /* Start by copying the domain's existing policies. */
     if ( !(new.cpuid = xmemdup(d->arch.cpuid)) ||
          !(new.msr   = xmemdup(d->arch.msr)) )
@@ -1374,8 +1378,7 @@ long arch_do_domctl(
         {
             /* Migration log stub */
             // fprintf(stderr, "T: Attempting to update cpuid policy\n");
-            // ret = update_domain_cpu_policy(d, &domctl->u.cpu_policy);
-            ret =0;
+            ret = update_domain_cpu_policy(d, &domctl->u.cpu_policy);
             if ( ret ) /* Copy domctl->u.cpu_policy.err_* to guest. */
                 copyback = true;
         }
