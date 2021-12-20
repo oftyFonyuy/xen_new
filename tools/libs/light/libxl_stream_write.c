@@ -15,6 +15,7 @@
 #include "libxl_osdeps.h" /* must come before any other headers */
 
 #include "libxl_internal.h"
+#include <stdio.h>
 
 /*
  * Infrastructure for writing a domain to a libxl migration v2 stream.
@@ -233,7 +234,7 @@ void libxl__stream_write_start(libxl__egc *egc,
     struct libxl__sr_hdr hdr;
     int rc = 0;
 
-    printk("S: Init stream writing");
+    printf("S: Init stream writing");
     libxl__stream_write_init(stream);
 
     stream->running = true;
@@ -269,7 +270,7 @@ void libxl__stream_write_start(libxl__egc *egc,
         stream->emu_sub_hdr.index = 0;
     }
 
-    printk("S: Start datacopier");
+    printf("S: Start datacopier");
     rc = libxl__datacopier_start(dc);
     if (rc)
         goto err;
@@ -325,7 +326,7 @@ static void stream_header_done(libxl__egc *egc,
     FILLZERO(rec);
     rec.type = REC_TYPE_LIBXC_CONTEXT;
 
-    printk("S: Starting libxc helper");
+    printf("S: Starting libxc helper");
     setup_write(egc, stream, "libxc header",
                 &rec, NULL, libxc_header_done);
 }
