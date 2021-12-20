@@ -653,7 +653,7 @@ static int suspend_and_send_dirty(struct xc_sr_context *ctx)
                                     &ctx->save.dirty_bitmap_hbuf);
 
     /* Migration log stub */
-    IPRINTF("S: Suspending domain to send the dirty memory...\n");
+    DPRINTF("S: Suspending domain to send the dirty memory...\n");
     rc = suspend_domain(ctx);
     if ( rc )
         goto out;
@@ -697,7 +697,7 @@ static int suspend_and_send_dirty(struct xc_sr_context *ctx)
     bitmap_clear(ctx->save.deferred_pages, ctx->save.p2m_size);
     ctx->save.nr_deferred_pages = 0;
 
-    IPRINTF("S: All dirty pages sent...\n");
+    DPRINTF("S: All dirty pages sent...\n");
 
  out:
     xc_set_progress_prefix(xch, NULL);
@@ -747,17 +747,17 @@ static int  send_domain_memory_live(struct xc_sr_context *ctx)
 {
     int rc;
 
-    IPRINTF("S: Enabling dirty logging...\n");
+    DPRINTF("S: Enabling dirty logging...\n");
     rc = enable_logdirty(ctx);
     if ( rc )
         goto out;
 
-    IPRINTF("S: Sending live memory...\n");
+    DPRINTF("S: Sending live memory...\n");
     rc = send_memory_live(ctx);
     if ( rc )
         goto out;
 
-    IPRINTF("S: Suspending dirty logging to send dirty pages...\n");
+    DPRINTF("S: Suspending dirty logging to send dirty pages...\n");
     rc = suspend_and_send_dirty(ctx);
     if ( rc )
         goto out;
@@ -790,7 +790,7 @@ static int send_domain_memory_nonlive(struct xc_sr_context *ctx)
     xc_interface *xch = ctx->xch;
     int rc;
 
-    IPRINTF("S: Suspending domain to send all domain memory...\n");
+    DPRINTF("S: Suspending domain to send all domain memory...\n");
     rc = suspend_domain(ctx);
     if ( rc )
         goto err;
@@ -801,7 +801,7 @@ static int send_domain_memory_nonlive(struct xc_sr_context *ctx)
     if ( rc )
         goto err;
     
-    IPRINTF("S: All domain mememory sent...\n");
+    DPRINTF("S: All domain mememory sent...\n");
 
  err:
     return rc;
@@ -868,7 +868,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     time_t my_t;
     long int diff;
 
-    IPRINTF("Saving domain %d, type %s",
+    DPRINTF("Saving domain %d, type %s",
             ctx->domid, dhdr_type_to_str(guest_type));
 
     rc = setup(ctx);
@@ -882,25 +882,25 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     if ( rc )
         goto err;
     diff = my_t - time(NULL);
-    IPRINTF("S: Header written in %ld s", diff);
+    DPRINTF("S: Header written in %ld s", diff);
 
     rc = ctx->save.ops.static_data(ctx);
     if ( rc )
         goto err;
 
-    IPRINTF("S: Sending static data...\n");
+    DPRINTF("S: Sending static data...\n");
     my_t = time(NULL);
     rc = write_static_data_end_record(ctx);
     if ( rc )
         goto err;
     diff = my_t - time(NULL);
-    IPRINTF("S: Static data written in %ld s", diff);
+    DPRINTF("S: Static data written in %ld s", diff);
 
     rc = ctx->save.ops.start_of_stream(ctx);
     if ( rc )
         goto err;
 
-    IPRINTF("Starting progressive data transfer\n");
+    DPRINTF("Starting progressive data transfer\n");
     do {
         rc = ctx->save.ops.start_of_checkpoint(ctx);
         if ( rc )
@@ -914,19 +914,19 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             my_t = time(NULL);
             rc = send_domain_memory_live(ctx);
             diff = my_t - time(NULL);
-            IPRINTF("S: Live memory written in %ld s", diff);
+            DPRINTF("S: Live memory written in %ld s", diff);
         }
         else if ( ctx->stream_type != XC_STREAM_PLAIN ){
             my_t = time(NULL);
             rc = send_domain_memory_checkpointed(ctx);
             diff = my_t - time(NULL);
-            IPRINTF("S: checkpointed memory written in %ld s", diff);
+            DPRINTF("S: checkpointed memory written in %ld s", diff);
         }
         else{
             my_t = time(NULL);
             rc = send_domain_memory_nonlive(ctx);
             diff = my_t - time(NULL);
-            IPRINTF("S: non-live memory written in %ld s", diff);
+            DPRINTF("S: non-live memory written in %ld s", diff);
         }
 
         if ( rc )
@@ -953,7 +953,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
              */
             ctx->save.live = false;
 
-            IPRINTF("S: Writing checkpoint record...\n");
+            DPRINTF("S: Writing checkpoint record...\n");
             rc = write_checkpoint_record(ctx);
             if ( rc )
                 goto err;
@@ -970,11 +970,11 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
 
             /* Migration log stub */
             // TODO: Add time logging to the migration log and determine how long the postcopy takes. 
-            IPRINTF("S: Starting postcopy...\n");
+            DPRINTF("S: Starting postcopy...\n");
             my_t = time(NULL);
             rc = ctx->save.callbacks->postcopy(ctx->save.callbacks->data);
             diff = my_t - time(NULL);
-            IPRINTF("S: Postcopy completed in %ld s ...\n", diff);
+            DPRINTF("S: Postcopy completed in %ld s ...\n", diff);
             if ( rc <= 0 )
                 goto err;
 
@@ -999,7 +999,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             }
         }
     } while ( ctx->stream_type != XC_STREAM_PLAIN );
-    IPRINTF("Progressive data transfer over...\n");
+    DPRINTF("Progressive data transfer over...\n");
 
     xc_report_progress_single(xch, "End of stream");
 
