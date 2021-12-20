@@ -75,7 +75,7 @@ static int update_domain_cpu_policy(struct domain *d,
 
 
     /* Migration log stub */
-    IPRINTF("T: Checking that cpu policies are compatible.\n");
+    //IPRINTF("T: Checking that cpu policies are compatible.\n");
 
     /* Audit the combined dataset. */
     ret = x86_cpu_policies_are_compatible(sys, &new, &err);
