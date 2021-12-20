@@ -783,7 +783,7 @@ static int write_all_vcpu_information(struct xc_sr_context *ctx)
         if ( rc )
             return rc;
 
-        PRINTF("S: Writing vcpu MSR data")
+        IPRINTF("S: Writing vcpu MSR data")
         rc = write_one_vcpu_msrs(ctx, i);
         if ( rc )
             return rc;
