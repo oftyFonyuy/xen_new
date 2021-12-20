@@ -175,6 +175,7 @@ int x86_static_data_complete(struct xc_sr_context *ctx, unsigned int *missing)
                err_l, err_s, err_m);
         return -1;
     }
+    fprintf(stderr, "T: CPUID check completed successfully\n");    
 
     return 0;
 }

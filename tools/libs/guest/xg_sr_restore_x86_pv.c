@@ -483,6 +483,7 @@ static int update_vcpu_context(struct xc_sr_context *ctx)
 
         if ( vcpu->basic.ptr )
         {
+            IPRINTF("T: Processing vcpu basic");
             rc = process_vcpu_basic(ctx, i);
             if ( rc )
                 return rc;
@@ -495,6 +496,7 @@ static int update_vcpu_context(struct xc_sr_context *ctx)
 
         if ( vcpu->extd.ptr )
         {
+            IPRINTF("T: Processing vcpu extended");
             rc = process_vcpu_extended(ctx, i);
             if ( rc )
                 return rc;
@@ -502,6 +504,7 @@ static int update_vcpu_context(struct xc_sr_context *ctx)
 
         if ( vcpu->xsave.ptr )
         {
+            IPRINTF("T: Processing vcpu xsave");
             rc = process_vcpu_xsave(ctx, i);
             if ( rc )
                 return rc;
@@ -509,6 +512,7 @@ static int update_vcpu_context(struct xc_sr_context *ctx)
 
         if ( vcpu->msr.ptr )
         {
+            IPRINTF("T: Processing vcpu msrs");
             rc = process_vcpu_msrs(ctx, i);
             if ( rc )
                 return rc;
@@ -1122,6 +1126,7 @@ static int x86_pv_stream_complete(struct xc_sr_context *ctx)
     xc_interface *xch = ctx->xch;
     int rc;
 
+    IPRINTF("T: Updating vcpu context");
     rc = update_vcpu_context(ctx);
     if ( rc )
         return rc;

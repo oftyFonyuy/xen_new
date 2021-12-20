@@ -768,18 +768,22 @@ static int write_all_vcpu_information(struct xc_sr_context *ctx)
         if ( !vinfo.online )
             continue;
 
+        IPRINTF("S: Writing vcpu basic information");
         rc = write_one_vcpu_basic(ctx, i);
         if ( rc )
             return rc;
 
+        IPRINTF("S: Writing vcpu extended info");
         rc = write_one_vcpu_extended(ctx, i);
         if ( rc )
             return rc;
 
+        IPRINTF("S: Writing vcpu xsave infro");
         rc = write_one_vcpu_xsave(ctx, i);
         if ( rc )
             return rc;
 
+        PRINTF("S: Writing vcpu MSR data")
         rc = write_one_vcpu_msrs(ctx, i);
         if ( rc )
             return rc;
