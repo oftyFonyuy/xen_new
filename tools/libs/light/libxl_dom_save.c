@@ -400,7 +400,7 @@ void libxl__domain_save(libxl__egc *egc, libxl__domain_save_state *dss)
     }
 
     dss->rc = 0;
-    printf("S: Init log dirty");
+    printf("S: Init log dirty\n");
     libxl__logdirty_init(&dss->logdirty);
     dss->logdirty.ao = ao;
 
@@ -420,7 +420,7 @@ void libxl__domain_save(libxl__egc *egc, libxl__domain_save_state *dss)
      * configuration is empty. Only domains which have no vnuma
      * configuration at all are supported.
      */
-    printf("S: Check if guest is vNUMA configured");
+    printf("S: Check if guest is vNUMA configured\n");
     ret = xc_domain_getvnuma(CTX->xch, domid, &nr_vnodes, &nr_vmemranges,
                              &nr_vcpus, NULL, NULL, NULL);
     if (ret != -1 || errno != EOPNOTSUPP) {

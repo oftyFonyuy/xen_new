@@ -234,7 +234,7 @@ void libxl__stream_write_start(libxl__egc *egc,
     struct libxl__sr_hdr hdr;
     int rc = 0;
 
-    printf("S: Init stream writing");
+    printf("S: Init stream writing\n");
     libxl__stream_write_init(stream);
 
     stream->running = true;
@@ -270,7 +270,7 @@ void libxl__stream_write_start(libxl__egc *egc,
         stream->emu_sub_hdr.index = 0;
     }
 
-    printf("S: Start datacopier");
+    printf("S: Start datacopier\n");
     rc = libxl__datacopier_start(dc);
     if (rc)
         goto err;
@@ -326,7 +326,7 @@ static void stream_header_done(libxl__egc *egc,
     FILLZERO(rec);
     rec.type = REC_TYPE_LIBXC_CONTEXT;
 
-    printf("S: Starting libxc helper");
+    printf("S: Starting libxc helper\n");
     setup_write(egc, stream, "libxc header",
                 &rec, NULL, libxc_header_done);
 }
