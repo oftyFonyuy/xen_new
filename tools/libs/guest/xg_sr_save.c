@@ -881,7 +881,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     if ( rc )
         goto err;
     diff = my_t - time(NULL);
-    IPRINTF("S: Header written in %ld s%", diff);
+    IPRINTF("S: Header written in %ld s", diff);
 
     rc = ctx->save.ops.static_data(ctx);
     if ( rc )
@@ -893,7 +893,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     if ( rc )
         goto err;
     diff = my_t - time(NULL);
-    IPRINTF("S: Static data written in %ld s%", diff);
+    IPRINTF("S: Static data written in %ld s", diff);
 
     rc = ctx->save.ops.start_of_stream(ctx);
     if ( rc )
@@ -913,19 +913,19 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             my_t = time(NULL);
             rc = send_domain_memory_live(ctx);
             diff = my_t - time(NULL);
-            IPRINTF("S: Live memory written in %ld s%", diff);
+            IPRINTF("S: Live memory written in %ld s", diff);
         }
         else if ( ctx->stream_type != XC_STREAM_PLAIN ){
             my_t = time(NULL);
             rc = send_domain_memory_checkpointed(ctx);
             diff = my_t - time(NULL);
-            IPRINTF("S: checkpointed memory written in %ld s%", diff);
+            IPRINTF("S: checkpointed memory written in %ld s", diff);
         }
         else{
             my_t = time(NULL);
             rc = send_domain_memory_nonlive(ctx);
             diff = my_t - time(NULL);
-            IPRINTF("S: non-live memory written in %ld s%", diff);
+            IPRINTF("S: non-live memory written in %ld s", diff);
         }
 
         if ( rc )
