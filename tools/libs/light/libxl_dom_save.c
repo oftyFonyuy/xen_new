@@ -399,6 +399,7 @@ void libxl__domain_save(libxl__egc *egc, libxl__domain_save_state *dss)
     }
 
     dss->rc = 0;
+    IPRINTF("S: Init log dirty");
     libxl__logdirty_init(&dss->logdirty);
     dss->logdirty.ao = ao;
 
@@ -418,6 +419,7 @@ void libxl__domain_save(libxl__egc *egc, libxl__domain_save_state *dss)
      * configuration is empty. Only domains which have no vnuma
      * configuration at all are supported.
      */
+    IPRINTF("S: Check if guest is vNUMA configured");
     ret = xc_domain_getvnuma(CTX->xch, domid, &nr_vnodes, &nr_vmemranges,
                              &nr_vcpus, NULL, NULL, NULL);
     if (ret != -1 || errno != EOPNOTSUPP) {
@@ -437,6 +439,7 @@ void libxl__domain_save(libxl__egc *egc, libxl__domain_save_state *dss)
     dss->sws.back_channel = false;
     dss->sws.completion_callback = stream_done;
 
+    IPRINTF("Start Stream write..\n");
     libxl__stream_write_start(egc, &dss->sws);
     return;
 

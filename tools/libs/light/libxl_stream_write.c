@@ -233,6 +233,7 @@ void libxl__stream_write_start(libxl__egc *egc,
     struct libxl__sr_hdr hdr;
     int rc = 0;
 
+    IPRINTF("S: Init stream writing");
     libxl__stream_write_init(stream);
 
     stream->running = true;
@@ -268,6 +269,7 @@ void libxl__stream_write_start(libxl__egc *egc,
         stream->emu_sub_hdr.index = 0;
     }
 
+    IPRINTF("S: Start datacopier");
     rc = libxl__datacopier_start(dc);
     if (rc)
         goto err;
@@ -323,6 +325,7 @@ static void stream_header_done(libxl__egc *egc,
     FILLZERO(rec);
     rec.type = REC_TYPE_LIBXC_CONTEXT;
 
+    IPRINTF("S: Starting libxc helper");
     setup_write(egc, stream, "libxc header",
                 &rec, NULL, libxc_header_done);
 }
