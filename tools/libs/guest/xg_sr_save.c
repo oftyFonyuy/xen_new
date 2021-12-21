@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <arpa/inet.h>
 #include <time.h>
+#include <linux/kernel.h>
 
 #include "xg_sr_common.h"
 
