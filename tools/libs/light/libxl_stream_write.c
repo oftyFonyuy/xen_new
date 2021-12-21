@@ -280,6 +280,7 @@ void libxl__stream_write_start(libxl__egc *egc,
     hdr.version = htobe32(RESTORE_STREAM_VERSION);
     hdr.options = htobe32(0);
 
+    printf("S: Start prefix data copyr\n");
     libxl__datacopier_prefixdata(egc, dc, &hdr, sizeof(hdr));
     return;
 
