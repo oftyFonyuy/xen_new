@@ -339,9 +339,9 @@ long do_domctl(XEN_GUEST_HANDLE_PARAM(xen_domctl_t) u_domctl)
         struct vcpu *v;
 
         ret = -EINVAL;
-        printk("d = = current->domain: %d\n", d==current->domain);
-        printk("vcpu > = d->max_vcpus: %d\n", vcpu >= d->max_vcpus);
-        printk("v = = NULL :", d->vcpu[vcpu]==NULL);
+        printk("d==current->domain: %d\n", d==current->domain);
+        printk("vcpu>= d->max_vcpus: %d\n", vcpu >= d->max_vcpus);
+        printk("v==NULL?: %d", d->vcpu[vcpu]==NULL);
         if ( (d == current->domain) || /* no domain_pause() */
              (vcpu >= d->max_vcpus) || ((v = d->vcpu[vcpu]) == NULL) )
             break;
