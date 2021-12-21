@@ -881,7 +881,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     rc = write_headers(ctx, guest_type);
     if ( rc )
         goto err;
-    diff = my_t - time(NULL);
+    diff = time(NULL) - my_t;
     PERROR("S: Header written in %ld s", diff);
 
     rc = ctx->save.ops.static_data(ctx);
@@ -893,7 +893,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     rc = write_static_data_end_record(ctx);
     if ( rc )
         goto err;
-    diff = my_t - time(NULL);
+    diff = time(NULL) - my_t;
     PERROR("S: Static data written in %ld s", diff);
 
     rc = ctx->save.ops.start_of_stream(ctx);
@@ -913,19 +913,19 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
         if ( ctx->save.live ){
             my_t = time(NULL);
             rc = send_domain_memory_live(ctx);
-            diff = my_t - time(NULL);
+            diff = time(NULL) - my_t;
             PERROR("S: Live memory written in %ld s", diff);
         }
         else if ( ctx->stream_type != XC_STREAM_PLAIN ){
             my_t = time(NULL);
             rc = send_domain_memory_checkpointed(ctx);
-            diff = my_t - time(NULL);
+            diff = time(NULL) - my_t;
             PERROR("S: checkpointed memory written in %ld s", diff);
         }
         else{
             my_t = time(NULL);
             rc = send_domain_memory_nonlive(ctx);
-            diff = my_t - time(NULL);
+            diff = time(NULL) - my_t;
             PERROR("S: non-live memory written in %ld s", diff);
         }
 
@@ -973,7 +973,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             PERROR("S: Starting postcopy...\n");
             my_t = time(NULL);
             rc = ctx->save.callbacks->postcopy(ctx->save.callbacks->data);
-            diff = my_t - time(NULL);
+            diff = time(NULL) - my_t;
             PERROR("S: Postcopy completed in %ld s ...\n", diff);
             if ( rc <= 0 )
                 goto err;
