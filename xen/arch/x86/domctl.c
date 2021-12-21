@@ -75,7 +75,7 @@ static int update_domain_cpu_policy(struct domain *d,
 
 
     /* Migration log stub */
-    PERROR("T: Checking that cpu policies are compatible.\n");
+    // PERROR("T: Checking that cpu policies are compatible.\n");
 
     /* Audit the combined dataset. */
     ret = x86_cpu_policies_are_compatible(sys, &new, &err);
@@ -915,7 +915,7 @@ long arch_do_domctl(
             goto vcpuextstate_out;
 
         ret = -EINVAL;
-        PERROR("v==curr: %d", v==curr);
+        // PERROR("v==curr: %d", v==curr);
         if ( v == curr ) /* no vcpu_pause() */
             goto vcpuextstate_out;
 
