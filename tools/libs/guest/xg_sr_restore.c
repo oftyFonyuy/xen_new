@@ -686,7 +686,7 @@ static int process_record(struct xc_sr_context *ctx, struct xc_sr_record *rec)
         break;
 
     case REC_TYPE_STATIC_DATA_END:
-        IPRINTF("T: Processing static data");
+        IPRINTF("T: Processing static data\n");
         rc = handle_static_data_end(ctx);
         break;
 
