@@ -16,24 +16,24 @@ int x86_cpu_policies_are_compatible(const struct cpu_policy *host,
     do { e.msr = (m); goto out; } while ( 0 )
 
     /* Migration log stub */
-    PERROR("Checking basic leaves\n");
+    // PERROR("Checking basic leaves\n");
     if ( guest->cpuid->basic.max_leaf > host->cpuid->basic.max_leaf )
         FAIL_CPUID(0, NA);
 
     /* Migration log stub */
-    PERROR("Checking feat leaves\n");
+    // PERROR("Checking feat leaves\n");
     if ( guest->cpuid->feat.max_subleaf > host->cpuid->feat.max_subleaf )
         FAIL_CPUID(7, 0);
 
     /* Migration log stub */
-    PERROR("Checking extd leaves\n");
+    // PERROR("Checking extd leaves\n");
     if ( guest->cpuid->extd.max_leaf > host->cpuid->extd.max_leaf )
         FAIL_CPUID(0x80000000, NA);
 
     /* TODO: Audit more CPUID data. */
 
     /* Migration log stub */
-    PERROR("Checking msr info\n");
+    // PERROR("Checking msr info\n");
     if ( ~host->msr->platform_info.raw & guest->msr->platform_info.raw )
         FAIL_MSR(MSR_INTEL_PLATFORM_INFO);
 
