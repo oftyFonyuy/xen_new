@@ -653,7 +653,7 @@ static int suspend_and_send_dirty(struct xc_sr_context *ctx)
                                     &ctx->save.dirty_bitmap_hbuf);
 
     /* Migration log stub */
-    printk("S: Suspending domain to send the dirty memory...\n");
+    printf("S: Suspending domain to send the dirty memory...\n");
     rc = suspend_domain(ctx);
     if ( rc )
         goto out;
@@ -697,7 +697,7 @@ static int suspend_and_send_dirty(struct xc_sr_context *ctx)
     bitmap_clear(ctx->save.deferred_pages, ctx->save.p2m_size);
     ctx->save.nr_deferred_pages = 0;
 
-    printk("S: All dirty pages sent...\n");
+    printf("S: All dirty pages sent...\n");
 
  out:
     xc_set_progress_prefix(xch, NULL);
@@ -747,17 +747,17 @@ static int  send_domain_memory_live(struct xc_sr_context *ctx)
 {
     int rc;
 
-    printk("S: Enabling dirty logging...\n");
+    printf("S: Enabling dirty logging...\n");
     rc = enable_logdirty(ctx);
     if ( rc )
         goto out;
 
-    printk("S: Sending live memory...\n");
+    printf("S: Sending live memory...\n");
     rc = send_memory_live(ctx);
     if ( rc )
         goto out;
 
-    printk("S: Suspending dirty logging to send dirty pages...\n");
+    printf("S: Suspending dirty logging to send dirty pages...\n");
     rc = suspend_and_send_dirty(ctx);
     if ( rc )
         goto out;
@@ -790,7 +790,7 @@ static int send_domain_memory_nonlive(struct xc_sr_context *ctx)
     xc_interface *xch = ctx->xch;
     int rc;
 
-    printk("S: Suspending domain to send all domain memory...\n");
+    printf("S: Suspending domain to send all domain memory...\n");
     rc = suspend_domain(ctx);
     if ( rc )
         goto err;
@@ -801,7 +801,7 @@ static int send_domain_memory_nonlive(struct xc_sr_context *ctx)
     if ( rc )
         goto err;
     
-    printk("S: All domain mememory sent...\n");
+    printf("S: All domain mememory sent...\n");
 
  err:
     return rc;
@@ -882,25 +882,25 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
     if ( rc )
         goto err;
     diff = my_t - time(NULL);
-    printk("S: Header written in %ld s", diff);
+    printf("S: Header written in %ld s", diff);
 
     rc = ctx->save.ops.static_data(ctx);
     if ( rc )
         goto err;
 
-    printk("S: Sending static data...\n");
+    printf("S: Sending static data...\n");
     my_t = time(NULL);
     rc = write_static_data_end_record(ctx);
     if ( rc )
         goto err;
     diff = my_t - time(NULL);
-    printk("S: Static data written in %ld s", diff);
+    printf("S: Static data written in %ld s", diff);
 
     rc = ctx->save.ops.start_of_stream(ctx);
     if ( rc )
         goto err;
 
-    printk("Starting progressive data transfer\n");
+    printf("Starting progressive data transfer\n");
     do {
         rc = ctx->save.ops.start_of_checkpoint(ctx);
         if ( rc )
@@ -914,19 +914,19 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             my_t = time(NULL);
             rc = send_domain_memory_live(ctx);
             diff = my_t - time(NULL);
-            printk("S: Live memory written in %ld s", diff);
+            printf("S: Live memory written in %ld s", diff);
         }
         else if ( ctx->stream_type != XC_STREAM_PLAIN ){
             my_t = time(NULL);
             rc = send_domain_memory_checkpointed(ctx);
             diff = my_t - time(NULL);
-            printk("S: checkpointed memory written in %ld s", diff);
+            printf("S: checkpointed memory written in %ld s", diff);
         }
         else{
             my_t = time(NULL);
             rc = send_domain_memory_nonlive(ctx);
             diff = my_t - time(NULL);
-            printk("S: non-live memory written in %ld s", diff);
+            printf("S: non-live memory written in %ld s", diff);
         }
 
         if ( rc )
@@ -953,7 +953,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
              */
             ctx->save.live = false;
 
-            printk("S: Writing checkpoint record...\n");
+            printf("S: Writing checkpoint record...\n");
             rc = write_checkpoint_record(ctx);
             if ( rc )
                 goto err;
@@ -970,11 +970,11 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
 
             /* Migration log stub */
             // TODO: Add time logging to the migration log and determine how long the postcopy takes. 
-            printk("S: Starting postcopy...\n");
+            printf("S: Starting postcopy...\n");
             my_t = time(NULL);
             rc = ctx->save.callbacks->postcopy(ctx->save.callbacks->data);
             diff = my_t - time(NULL);
-            printk("S: Postcopy completed in %ld s ...\n", diff);
+            printf("S: Postcopy completed in %ld s ...\n", diff);
             if ( rc <= 0 )
                 goto err;
 
@@ -999,7 +999,7 @@ static int save(struct xc_sr_context *ctx, uint16_t guest_type)
             }
         }
     } while ( ctx->stream_type != XC_STREAM_PLAIN );
-    printk("Progressive data transfer over...\n");
+    printf("Progressive data transfer over...\n");
 
     xc_report_progress_single(xch, "End of stream");
 
