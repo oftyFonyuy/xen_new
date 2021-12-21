@@ -31,6 +31,7 @@
 #include <asm/p2m.h>
 #include <public/domctl.h>
 #include <xsm/xsm.h>
+#include <stdio.h>
 
 static DEFINE_SPINLOCK(domctl_lock);
 
@@ -339,6 +340,9 @@ long do_domctl(XEN_GUEST_HANDLE_PARAM(xen_domctl_t) u_domctl)
         struct vcpu *v;
 
         ret = -EINVAL;
+        printf("d==current->domain: %d\n", d==current->domain);
+        printf("vcpu>= d->max_vcpus: %d\n", vcpu >= d->max_vcpus);
+        printf("v==NULL?: ", d->vcpu[vcpu]==NULL);
         if ( (d == current->domain) || /* no domain_pause() */
              (vcpu >= d->max_vcpus) || ((v = d->vcpu[vcpu]) == NULL) )
             break;
