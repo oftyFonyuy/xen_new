@@ -747,17 +747,17 @@ static int  send_domain_memory_live(struct xc_sr_context *ctx)
 {
     int rc;
 
-    PERROR("S: Enabling dirty logging...\n");
+    // PERROR("S: Enabling dirty logging...\n");
     rc = enable_logdirty(ctx);
     if ( rc )
         goto out;
 
-    PERROR("S: Sending live memory...\n");
+    // PERROR("S: Sending live memory...\n");
     rc = send_memory_live(ctx);
     if ( rc )
         goto out;
 
-    PERROR("S: Suspending dirty logging to send dirty pages...\n");
+    // PERROR("S: Suspending dirty logging to send dirty pages...\n");
     rc = suspend_and_send_dirty(ctx);
     if ( rc )
         goto out;
