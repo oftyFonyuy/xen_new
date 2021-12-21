@@ -16,24 +16,30 @@ int x86_cpu_policies_are_compatible(const struct cpu_policy *host,
     do { e.msr = (m); goto out; } while ( 0 )
 
     /* Migration log stub */
-    // PERROR("Checking basic leaves\n");
+    // DPRINTF("Checking basic leaves\n");
+    DPRINTF("guest basic max leaf: %d\n", guest->cpuid->basic.max_leaf);
+    DPRINTF("host basic max leaf: %d\n", host->cpuid->basic.max_leaf);
     if ( guest->cpuid->basic.max_leaf > host->cpuid->basic.max_leaf )
         FAIL_CPUID(0, NA);
 
     /* Migration log stub */
-    // PERROR("Checking feat leaves\n");
+    // DPRINTF("Checking feat leaves\n");
+    DPRINTF("guest feat max sub leaf: %d\n", guest->cpuid->feat.max_subleaf);
+    DPRINTF("host feat max sub leaf: %d\n", host->cpuid->feat.max_subleaf);
     if ( guest->cpuid->feat.max_subleaf > host->cpuid->feat.max_subleaf )
         FAIL_CPUID(7, 0);
 
     /* Migration log stub */
-    // PERROR("Checking extd leaves\n");
+    // DPRINTF("Checking extd leaves\n");
+    DPRINTF("guest extd max leaf: %d\n", guest->cpuid->extd.max_leaf);
+    DPRINTF("host extd max leaf: %d\n", host->cpuid->extd.max_leaf);
     if ( guest->cpuid->extd.max_leaf > host->cpuid->extd.max_leaf )
         FAIL_CPUID(0x80000000, NA);
 
     /* TODO: Audit more CPUID data. */
 
     /* Migration log stub */
-    // PERROR("Checking msr info\n");
+    // DPRINTF("Checking msr info\n");
     if ( ~host->msr->platform_info.raw & guest->msr->platform_info.raw )
         FAIL_MSR(MSR_INTEL_PLATFORM_INFO);
 
