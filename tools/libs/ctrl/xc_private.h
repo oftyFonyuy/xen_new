@@ -277,7 +277,6 @@ static inline int do_domctl_maybe_retry_efault(xc_interface *xch,
     }
 
     do {
-        PERROR("T: Attempting hypercall to domctl");
         ret = xencall1(xch->xcall, __HYPERVISOR_domctl,
                        HYPERCALL_BUFFER_AS_ARG(domctl));
     } while ( ret < 0 && errno == EFAULT && retry_cnt++ < retries );
@@ -288,7 +287,6 @@ static inline int do_domctl_maybe_retry_efault(xc_interface *xch,
             DPRINTF("domctl operation failed -- need to"
                     " rebuild the user-space tool set?\n");
     }
-    PERROR("T: Hypercall successful");
     xc_hypercall_bounce_post(xch, domctl);
  out1:
     return ret;
