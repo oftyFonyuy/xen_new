@@ -420,7 +420,9 @@ static int process_vcpu_xsave(struct xc_sr_context *ctx,
 
     memcpy(buffer, vcpu->xsave.ptr, vcpu->xsave.size);
 
+    PERROR("T: Calling Domctl");
     rc = xc_domctl(xch, &domctl);
+    PERROR("T: After Domctl; Return value=%d", rc);
     if ( rc )
         PERROR("Failed to set vcpu%u's xsave info", vcpuid);
 

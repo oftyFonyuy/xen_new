@@ -533,15 +533,18 @@ static int send_memory_live(struct xc_sr_context *ctx)
 
     for ( ; ; )
     {
+        PERROR("S: Performing precopy policy control"); 
         policy_decision = precopy_policy(*policy_stats, data);
         x++;
 
         if ( stats.dirty_count > 0 && policy_decision != XGS_POLICY_ABORT )
         {
+            PERROR("S: Updating progress report"); 
             rc = update_progress_string(ctx, &progress_str);
             if ( rc )
                 goto out;
 
+            PERROR("S: Sending dirty pages");             
             rc = send_dirty_pages(ctx, stats.dirty_count);
             if ( rc )
                 goto out;
@@ -554,11 +557,13 @@ static int send_memory_live(struct xc_sr_context *ctx)
         policy_stats->total_written += policy_stats->dirty_count;
         policy_stats->dirty_count   = -1;
 
+        PERROR("S: Performing precopy policy control"); 
         policy_decision = precopy_policy(*policy_stats, data);
 
         if ( policy_decision != XGS_POLICY_CONTINUE_PRECOPY )
             break;
 
+        PERROR("S: Performing dirty log control");
         if ( xc_logdirty_control(
                  xch, ctx->domid, XEN_DOMCTL_SHADOW_OP_CLEAN,
                  &ctx->save.dirty_bitmap_hbuf, ctx->save.p2m_size,
