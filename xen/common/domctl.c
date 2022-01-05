@@ -288,7 +288,8 @@ long do_domctl(XEN_GUEST_HANDLE_PARAM(xen_domctl_t) u_domctl)
         return -EACCES;
 
     /* Migration log stub */
-    DPRINTF("Calling do_domctl with opt->cmd =  %d\n", op->cmd);
+    printk(XENLOG_G_DEBUG
+            "Calling do_domctl with opt->cmd =  %d\n", op->cmd);
     switch ( op->cmd )
     {
     case XEN_DOMCTL_assign_device:
