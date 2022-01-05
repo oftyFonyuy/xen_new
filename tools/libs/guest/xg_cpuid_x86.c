@@ -871,8 +871,12 @@ bool xc_cpu_policy_is_compatible(xc_interface *xch, xc_cpu_policy_t *host,
     struct cpu_policy_errors err = INIT_CPU_POLICY_ERRORS;
     struct cpu_policy h = { &host->cpuid, &host->msr };
     struct cpu_policy g = { &guest->cpuid, &guest->msr };
-    int rc = x86_cpu_policies_are_compatible(&h, &g, &err);
+    int rc = 0;
 
+    
+    rc = x86_cpu_policies_are_compatible(&h, &g, &err);
+    ERROR("CPUID check return result: %d\n", rc);
+    
     if ( !rc )
         return true;
 
