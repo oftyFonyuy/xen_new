@@ -873,12 +873,12 @@ bool xc_cpu_policy_is_compatible(xc_interface *xch, xc_cpu_policy_t *host,
     struct cpu_policy g = { &guest->cpuid, &guest->msr };
     int rc = 0;
 
-    ERROR("Host basic max leaf: %d", h->cpuid->basic.max_leaf);
-    ERROR("Host feat max subleaf: %d", h->cpuid->basic.max_subleaf);
-    ERROR("Host extd max leaf: %d", h->cpuid->extd.max_leaf);
-    ERROR("Guest basic max leaf: %d", g->cpuid->basic.max_leaf);
-    ERROR("Guest feat max subleaf: %d", g->cpuid->basic.max_subleaf);
-    ERROR("Guest extd max leaf: %d", g->cpuid->extd.max_leaf);
+    ERROR("Host basic max leaf: %d", h.cpuid->basic.max_leaf);
+    ERROR("Host feat max subleaf: %d", h.cpuid->basic.max_subleaf);
+    ERROR("Host extd max leaf: %d", h.cpuid->extd.max_leaf);
+    ERROR("Guest basic max leaf: %d", g.cpuid->basic.max_leaf);
+    ERROR("Guest feat max subleaf: %d", g.cpuid->basic.max_subleaf);
+    ERROR("Guest extd max leaf: %d", g.cpuid->extd.max_leaf);
     rc = x86_cpu_policies_are_compatible(&h, &g, &err);
     ERROR("CPUID check return result: %d\n", rc);
 
