@@ -294,6 +294,7 @@ static inline int do_domctl_maybe_retry_efault(xc_interface *xch,
 
 static inline int do_domctl(xc_interface *xch, struct xen_domctl *domctl)
 {
+    DPRINTF("T: calling do_domctl retry");
     return do_domctl_maybe_retry_efault(xch, domctl, 0);
 }
 

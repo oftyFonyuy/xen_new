@@ -481,6 +481,7 @@ int xc_clear_domain_pages(xc_interface *xch,
 
 int xc_domctl(xc_interface *xch, struct xen_domctl *domctl)
 {
+    DPRINTF("T: Calling do_domctl");
     return do_domctl(xch, domctl);
 }
 
