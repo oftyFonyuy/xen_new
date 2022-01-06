@@ -80,9 +80,9 @@ static int update_domain_cpu_policy(struct domain *d,
     fprintf(stderr, "Host basic max leaf: %d\n", sys.cpuid->basic.max_leaf);
     fprintf(stderr, "Host feat max subleaf: %d\n", sys.cpuid->feat.max_subleaf);
     fprintf(stderr, "Host extd max leaf: %d\n", sys.cpuid->extd.max_leaf);
-    fprintf(stderr, "Guest basic max leaf: %d\n", sys.cpuid->basic.max_leaf);
-    fprintf(stderr, "Guest feat max subleaf: %d\n", sys.cpuid->feat.max_subleaf);
-    fprintf(stderr, "Guest extd max leaf: %d\n", g.cpuid->extd.max_leaf);
+    fprintf(stderr, "Guest basic max leaf: %d\n", new.cpuid->basic.max_leaf);
+    fprintf(stderr, "Guest feat max subleaf: %d\n", new.cpuid->feat.max_subleaf);
+    fprintf(stderr, "Guest extd max leaf: %d\n", new.cpuid->extd.max_leaf);
     rc = x86_cpu_policies_are_compatible(&h, &g, &err);
 
     /* Audit the combined dataset. */
