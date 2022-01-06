@@ -77,16 +77,16 @@ static int update_domain_cpu_policy(struct domain *d,
     /* Migration log stub */
     // PERROR("T: Checking that cpu policies are compatible.\n");
 
-    fprintf("Host basic max leaf: %d\n", sys->cpuid->basic.max_leaf);
-    fprintf("Host feat max subleaf: %d\n", sys->cpuid->feat.max_subleaf);
-    fprintf("Host extd max leaf: %d\n", sys->cpuid->extd.max_leaf);
-    fprintf("Guest basic max leaf: %d\n", new.cpuid->basic.max_leaf);
-    fprintf("Guest feat max subleaf: %d\n", new.cpuid->feat.max_subleaf);
-    fprintf("Guest extd max leaf: %d\n", new.cpuid->extd.max_leaf);
+    printk("Host basic max leaf: %d\n", sys->cpuid->basic.max_leaf);
+    printk("Host feat max subleaf: %d\n", sys->cpuid->feat.max_subleaf);
+    printk("Host extd max leaf: %d\n", sys->cpuid->extd.max_leaf);
+    printk("Guest basic max leaf: %d\n", new.cpuid->basic.max_leaf);
+    printk("Guest feat max subleaf: %d\n", new.cpuid->feat.max_subleaf);
+    printk("Guest extd max leaf: %d\n", new.cpuid->extd.max_leaf);
 
     /* Audit the combined dataset. */
     ret = x86_cpu_policies_are_compatible(sys, &new, &err);
-    fprintf(stderr, "CPUID check return result: %d\n", ret);
+    printk("CPUID check return result: %d\n", ret);
     if ( ret )
         goto out;
 
