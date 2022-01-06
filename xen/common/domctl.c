@@ -287,9 +287,6 @@ long do_domctl(XEN_GUEST_HANDLE_PARAM(xen_domctl_t) u_domctl)
     if ( op->interface_version != XEN_DOMCTL_INTERFACE_VERSION )
         return -EACCES;
 
-    /* Migration log stub */
-    printk(XENLOG_G_DEBUG
-            "Calling do_domctl with opt->cmd =  %d\n", op->cmd);
     switch ( op->cmd )
     {
     case XEN_DOMCTL_assign_device:
