@@ -873,14 +873,14 @@ bool xc_cpu_policy_is_compatible(xc_interface *xch, xc_cpu_policy_t *host,
     struct cpu_policy g = { &guest->cpuid, &guest->msr };
     int rc = 0;
 
-    fprintf(stderr, "Host basic max leaf: %d\n", h.cpuid->basic.max_leaf);
-    fprintf(stderr, "Host feat max subleaf: %d\n", h.cpuid->feat.max_subleaf);
-    fprintf(stderr, "Host extd max leaf: %d\n", h.cpuid->extd.max_leaf);
-    fprintf(stderr, "Guest basic max leaf: %d\n", g.cpuid->basic.max_leaf);
-    fprintf(stderr, "Guest feat max subleaf: %d\n", g.cpuid->feat.max_subleaf);
-    fprintf(stderr, "Guest extd max leaf: %d\n", g.cpuid->extd.max_leaf);
+    fprintf(stderr, "Host basic max leaf: 0x%x\n", h.cpuid->basic.max_leaf);
+    fprintf(stderr, "Host feat max subleaf: 0x%x\n", h.cpuid->feat.max_subleaf);
+    fprintf(stderr, "Host extd max leaf: 0x%x\n", h.cpuid->extd.max_leaf);
+    fprintf(stderr, "Guest basic max leaf: 0x%x\n", g.cpuid->basic.max_leaf);
+    fprintf(stderr, "Guest feat max subleaf: 0x%x\n", g.cpuid->feat.max_subleaf);
+    fprintf(stderr, "Guest extd max leaf: 0x%x\n", g.cpuid->extd.max_leaf);
     rc = x86_cpu_policies_are_compatible(&h, &g, &err);
-    fprintf(stderr, "CPUID check return result: %d\n", rc);
+    fprintf(stderr, "CPUID check return result: 0x%x\n", rc);
 
     if ( !rc )
         return true;

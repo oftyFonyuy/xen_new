@@ -425,6 +425,11 @@ static int process_vcpu_xsave(struct xc_sr_context *ctx,
     PERROR("T: After Domctl; Return value=%d", rc);
     if ( rc )
         PERROR("Failed to set vcpu%u's xsave info", vcpuid);
+    
+    if(!rc){
+        PERROR("Forcing to continue without setting xsave.");
+        rc = 0;
+    }
 
     xc_hypercall_buffer_free(xch, buffer);
 
