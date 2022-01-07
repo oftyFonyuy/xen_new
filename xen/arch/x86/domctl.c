@@ -923,7 +923,7 @@ long arch_do_domctl(
             goto vcpuextstate_out;
 
         ret = -EINVAL;
-        printk(XENLOG_G_ERR "v==curr: %d", v==curr);
+        printk(XENLOG_G_ERR "v==curr: %d\n", v==curr);
         if ( v == curr ) /* no vcpu_pause() */
             goto vcpuextstate_out;
 
