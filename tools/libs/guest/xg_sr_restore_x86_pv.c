@@ -426,7 +426,7 @@ static int process_vcpu_xsave(struct xc_sr_context *ctx,
     if ( rc )
         PERROR("Failed to set vcpu%u's xsave info", vcpuid);
     
-    if(!rc){
+    if(rc){
         PERROR("Forcing to continue without setting xsave.");
         rc = 0;
     }
