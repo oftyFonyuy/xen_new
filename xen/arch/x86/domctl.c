@@ -1000,6 +1000,8 @@ long arch_do_domctl(
             const struct xsave_struct *_xsave_area;
 
             ret = -EINVAL;
+            printk(XENLOG_ERR "evc->size < PV_XSAVE_HDR_SIZE : %d \n", evc->size < PV_XSAVE_HDR_SIZE);
+            printk(XENLOG_ERR "evc->size > PV_XSAVE_SIZE(xfeature_mask) : %d \n", evc->size > PV_XSAVE_SIZE(xfeature_mask));
             if ( evc->size < PV_XSAVE_HDR_SIZE ||
                  evc->size > PV_XSAVE_SIZE(xfeature_mask) )
                 goto vcpuextstate_out;
