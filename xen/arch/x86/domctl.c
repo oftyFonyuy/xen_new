@@ -1001,6 +1001,8 @@ long arch_do_domctl(
 
             ret = -EINVAL;
             printk(XENLOG_ERR "evc->size < PV_XSAVE_HDR_SIZE : %d \n", evc->size < PV_XSAVE_HDR_SIZE);
+            printk(XENLOG_ERR "evc->size : %d \n", evc->size );
+            printk(XENLOG_ERR "PV_XSAVE_SIZE(xfeature_mask) : %d \n", PV_XSAVE_SIZE(xfeature_mask));
             printk(XENLOG_ERR "evc->size > PV_XSAVE_SIZE(xfeature_mask) : %d \n", evc->size > PV_XSAVE_SIZE(xfeature_mask));
             if ( evc->size < PV_XSAVE_HDR_SIZE ||
                  evc->size > PV_XSAVE_SIZE(xfeature_mask) )
