@@ -1003,7 +1003,7 @@ long arch_do_domctl(
             if ( evc->size < PV_XSAVE_HDR_SIZE ||
                  evc->size > PV_XSAVE_SIZE(xfeature_mask) )
                 goto vcpuextstate_out;
-            printk("setvcpuexstate after size checks\n");
+            printk(XENLOG_G_ERR "setvcpuexstate after size checks\n");
 
             receive_buf = xmalloc_bytes(evc->size);
             if ( !receive_buf )
@@ -1011,7 +1011,7 @@ long arch_do_domctl(
                 ret = -ENOMEM;
                 goto vcpuextstate_out;
             }
-            printk("setvcpuexstate after receive buf checks\n");
+            printk(XENLOG_G_ERR "setvcpuexstate after receive buf checks\n");
             if ( copy_from_guest_offset(receive_buf, domctl->u.vcpuextstate.buffer,
                                         offset, evc->size) )
             {
@@ -1019,7 +1019,7 @@ long arch_do_domctl(
                 xfree(receive_buf);
                 goto vcpuextstate_out;
             }
-            printk("setvcpuexstate after guest offset copy\n");
+            printk(XENLOG_G_ERR "setvcpuexstate after guest offset copy\n");
 
             _xcr0 = *(uint64_t *)receive_buf;
             _xcr0_accum = *(uint64_t *)(receive_buf + sizeof(uint64_t));
@@ -1033,13 +1033,13 @@ long arch_do_domctl(
             }
             else if ( !_xcr0 )
                 ret = 0;
-            printk("setvcpuexstate after _xcr0_accm. ret=%ld\n", ret);
+            printk(XENLOG_G_ERR "setvcpuexstate after _xcr0_accm. ret=%ld\n", ret);
             if ( ret )
             {
                 xfree(receive_buf);
                 goto vcpuextstate_out;
             }
-            printk("setvcpuexstate after _xcr0_accm ret check.\n");
+            printk(XENLOG_G_ERR "setvcpuexstate after _xcr0_accm ret check.\n");
 
             if ( evc->size == PV_XSAVE_HDR_SIZE )
                 ; /* Nothing to restore. */
@@ -1064,7 +1064,7 @@ long arch_do_domctl(
 
                 vcpu_unpause(v);
             }
-            printk("setvcpuexstate after evc size checks to determine restore type. ret=%ld\n", ret);
+            printk(XENLOG_G_ERR "setvcpuexstate after evc size checks to determine restore type. ret=%ld\n", ret);
 
             xfree(receive_buf);
         }
@@ -1077,7 +1077,7 @@ long arch_do_domctl(
             copyback = true;
         
         if( domctl->cmd == XEN_DOMCTL_setvcpuextstate ){
-            printk("ret value at vcpuexstate_out: %ld\n", ret);
+            printk(XENLOG_G_ERR "ret value at vcpuexstate_out: %ld\n", ret);
         }
         break;
     }
