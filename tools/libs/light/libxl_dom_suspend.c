@@ -235,7 +235,8 @@ static void domain_suspend_common_pvcontrol_suspending(libxl__egc *egc,
     STATE_AO_GC(dsps->ao);
     xs_transaction_t t = 0;
 
-    printf("Current state is %s", state);
+    LOGD(ERROR, dsps->domid,
+                     "Current state is %s", state);
     if (!rc && !domain_suspend_pvcontrol_acked(state))
         /* keep waiting */
         return;
