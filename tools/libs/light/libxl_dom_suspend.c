@@ -205,6 +205,7 @@ static void domain_suspend_callback_common(libxl__egc *egc,
 
     dsps->pvcontrol.ao = ao;
     dsps->pvcontrol.callback = domain_suspend_common_pvcontrol_suspending;
+    printf("Sending suspend request to domain");
     rc = libxl__domain_pvcontrol(egc, &dsps->pvcontrol, domid, "suspend");
     if (rc) goto err;
 
@@ -234,6 +235,7 @@ static void domain_suspend_common_pvcontrol_suspending(libxl__egc *egc,
     STATE_AO_GC(dsps->ao);
     xs_transaction_t t = 0;
 
+    printf("Current state is %s", state);
     if (!rc && !domain_suspend_pvcontrol_acked(state))
         /* keep waiting */
         return;

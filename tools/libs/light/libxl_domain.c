@@ -784,6 +784,7 @@ int libxl__domain_pvcontrol(libxl__egc *egc, libxl__xswait_state *pvcontrol,
     if (!shutdown_path)
         return ERROR_FAIL;
 
+    printf("Shutdown path is %s", shutdown_path);
     rc = libxl__xs_printf(gc, XBT_NULL, shutdown_path, "%s", cmd);
     if (rc)
         return rc;
